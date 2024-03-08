@@ -13,14 +13,12 @@ import java.awt.event.WindowEvent;
  */
 public class TankFrame extends Frame {
 
-    int x = 200;
-    int y = 200;
-    final int Speed = 10;
-    Dir dir = Dir.Stop;
     boolean bU = false;
     boolean bD = false;
     boolean bL = false;
     boolean bR = false;
+
+    Tank myTank = new Tank(200, 200, Dir.Stop);
 
     public TankFrame() {
         setSize(800, 600);
@@ -28,12 +26,10 @@ public class TankFrame extends Frame {
         setTitle("demo01");
         setVisible(true);
         addWindowListener(new WindowAdapter() {
-
             @Override
             public void windowClosing(WindowEvent e) {
                 System.exit(0);
             }
-
         });
         addKeyListener(new KeyAdapter() {
             @Override
@@ -97,10 +93,14 @@ public class TankFrame extends Frame {
             }
 
             private void setMainTankDir() {
-                if (bU) dir = Dir.Up;
-                if (bD) dir = Dir.Down;
-                if (bL) dir = Dir.Left;
-                if (bR) dir = Dir.Right;
+                if (!bU && !bD && !bL && !bR) myTank.setMoving(false);
+                else {
+                    myTank.setMoving(true);
+                    if (bU) myTank.setDir(Dir.Up);
+                    if (bD) myTank.setDir(Dir.Down);
+                    if (bL) myTank.setDir(Dir.Left);
+                    if (bR) myTank.setDir(Dir.Right);
+                }
             }
         });
     }
@@ -108,26 +108,7 @@ public class TankFrame extends Frame {
     @Override
     public void paint(Graphics g) {
         System.out.println("绘制窗口");
-        g.fillRect(x, y, 50, 50);
-        g.setColor(Color.BLUE);
-
-        switch (dir){
-            case Up:
-                y -= Speed;
-                break;
-            case Down:
-                y += Speed;
-                break;
-            case Left:
-                x -= Speed;
-                break;
-            case Right:
-                x += Speed;
-                break;
-            default:
-                dir = Dir.Stop;
-                break;
-        }
+        myTank.paint(g);
 
     }
 
