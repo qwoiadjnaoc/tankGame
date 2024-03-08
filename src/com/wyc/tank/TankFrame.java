@@ -28,5 +28,8 @@ public class TankFrame extends Frame {
     public void paint(Graphics g) {
         System.out.println("绘制窗口");
         g.fillRect(200, 200, 50, 50);
+        g.setColor(Color.BLUE);
+        g.fillRect(200, 200, 50, 50);
+        g.fillOval(200, 200, 10, 10);
     }
 }
