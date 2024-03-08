@@ -15,6 +15,8 @@ public class TankFrame extends Frame {
 
     int x = 200;
     int y = 200;
+    final int Speed = 10;
+    Dir dir = Dir.Stop;
     boolean bU = false;
     boolean bD = false;
     boolean bL = false;
@@ -64,6 +66,7 @@ public class TankFrame extends Frame {
                         System.out.println("其他键被按下");
                         break;
                 }
+                setMainTankDir();
             }
 
             @Override
@@ -71,25 +74,33 @@ public class TankFrame extends Frame {
                 System.out.println(e.getKeyChar());
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_UP:
-                        System.out.println("上箭头键被按下");
+                        System.out.println("上箭头键被抬起");
                         bU = false;
                         break;
                     case KeyEvent.VK_DOWN:
-                        System.out.println("下箭头键被按下");
+                        System.out.println("下箭头键被抬起");
                         bD = false;
                         break;
                     case KeyEvent.VK_LEFT:
-                        System.out.println("左箭头键被按下");
+                        System.out.println("左箭头键被抬起");
                         bL = false;
                         break;
                     case KeyEvent.VK_RIGHT:
-                        System.out.println("右箭头键被按下");
+                        System.out.println("右箭头键被抬起");
                         bR = false;
                         break;
                     default:
-                        System.out.println("其他键被按下");
+                        System.out.println("其他键被抬起");
                         break;
                 }
+                setMainTankDir();
+            }
+
+            private void setMainTankDir() {
+                if (bU) dir = Dir.Up;
+                if (bD) dir = Dir.Down;
+                if (bL) dir = Dir.Left;
+                if (bR) dir = Dir.Right;
             }
         });
     }
@@ -99,6 +110,25 @@ public class TankFrame extends Frame {
         System.out.println("绘制窗口");
         g.fillRect(x, y, 50, 50);
         g.setColor(Color.BLUE);
+
+        switch (dir){
+            case Up:
+                y -= Speed;
+                break;
+            case Down:
+                y += Speed;
+                break;
+            case Left:
+                x -= Speed;
+                break;
+            case Right:
+                x += Speed;
+                break;
+            default:
+                dir = Dir.Stop;
+                break;
+        }
+
     }
 
     // 测试键盘监听
