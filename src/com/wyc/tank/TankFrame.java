@@ -12,19 +12,20 @@ import java.awt.event.WindowEvent;
  * @Date 2024/3/8
  */
 public class TankFrame extends Frame {
-
     boolean bU = false;
     boolean bD = false;
     boolean bL = false;
     boolean bR = false;
+    Tank myTank = new Tank(50,50,Dir.Down);
 
-    Tank myTank = new Tank(200, 200, Dir.Stop);
+    private Image offScreenImage;
 
     public TankFrame() {
-        setSize(800, 600);
-        setResizable(false);
         setTitle("demo01");
+        setSize(1400, 600);
+        setResizable(false);
         setVisible(true);
+        // 添加窗口监听器以处理关闭事件
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -32,12 +33,6 @@ public class TankFrame extends Frame {
             }
         });
         addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                System.out.println(e.getKeyChar());
-
-            }
-
             @Override
             public void keyPressed(KeyEvent e) {
                 System.out.println(e.getKeyChar());
@@ -63,6 +58,7 @@ public class TankFrame extends Frame {
                         break;
                 }
                 setMainTankDir();
+                repaint();
             }
 
             @Override
@@ -101,13 +97,25 @@ public class TankFrame extends Frame {
                     if (bL) myTank.setDir(Dir.Left);
                     if (bR) myTank.setDir(Dir.Right);
                 }
+                repaint();
             }
         });
     }
 
+    public void update(Graphics g) {
+        if (offScreenImage == null) {
+            offScreenImage = this.createImage(getWidth(), getHeight());
+        }
+        Graphics offG = offScreenImage.getGraphics();
+        // 清除缓冲区
+        offG.setColor(Color.WHITE);
+        offG.fillRect(0, 0, getWidth(), getHeight());
+        paint(offG); // 在缓冲区上绘制物体
+        g.drawImage(offScreenImage, 0, 0, null); // 将缓冲区的图像一次性绘制到屏幕上
+    }
+
     @Override
     public void paint(Graphics g) {
-        System.out.println("绘制窗口");
         myTank.paint(g);
 
     }

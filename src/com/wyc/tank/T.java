@@ -9,7 +9,14 @@ public class T {
     public static void main(String[] args) throws InterruptedException {
         TankFrame tankFrame = new TankFrame();
         while (true){
-            Thread.sleep(20);
+//            new Thread(() -> {
+//                try {
+//                    Thread.sleep(20);
+//                } catch (InterruptedException e) {
+//                    throw new RuntimeException(e);
+//                }
+//                tankFrame.repaint();
+//            }).start();
             tankFrame.repaint();
         }
     }
