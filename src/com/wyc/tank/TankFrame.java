@@ -18,6 +18,8 @@ public class TankFrame extends Frame {
     boolean bR = false;
     Tank myTank = new Tank(50,50,Dir.Down);
 
+    Bullet bullet = new Bullet(300,300,Dir.Down);
+
     private Image offScreenImage;
 
     public TankFrame() {
@@ -58,7 +60,6 @@ public class TankFrame extends Frame {
                         break;
                 }
                 setMainTankDir();
-                repaint();
             }
 
             @Override
@@ -97,7 +98,7 @@ public class TankFrame extends Frame {
                     if (bL) myTank.setDir(Dir.Left);
                     if (bR) myTank.setDir(Dir.Right);
                 }
-                repaint();
+                //repaint();
             }
         });
     }
@@ -117,7 +118,7 @@ public class TankFrame extends Frame {
     @Override
     public void paint(Graphics g) {
         myTank.paint(g);
-
+        bullet.pain(g);
     }
 
     // 测试键盘监听
